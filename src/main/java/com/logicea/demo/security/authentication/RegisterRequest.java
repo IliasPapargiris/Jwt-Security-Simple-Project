@@ -1,5 +1,6 @@
 package com.logicea.demo.security.authentication;
 
+import com.logicea.demo.util.Roles;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,4 +16,6 @@ public class RegisterRequest {
     private String email;
 
     private String password;
+
+    private Roles role;
 }

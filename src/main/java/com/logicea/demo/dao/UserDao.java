@@ -11,12 +11,8 @@ import java.util.Optional;
 @Repository
 public interface UserDao extends JpaRepository<User, Long> {
 
-    Optional<User> findByUsername(String username);
 
     Boolean existsByEmail(String email);
-    Optional<User> findByEmail(String email);
 
-    @Query("SELECT DISTINCT user FROM User user " +
-            "JOIN FETCH user.cards cards")
-    List<User> retrieveAllUsers();
+    Optional<User> findByEmail(String email);
 }

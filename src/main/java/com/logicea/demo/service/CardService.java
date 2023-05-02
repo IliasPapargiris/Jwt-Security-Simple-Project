@@ -1,5 +1,8 @@
 package com.logicea.demo.service;
 
+import com.logicea.demo.exceptions.CardDoesNotBelongToUserException;
+import com.logicea.demo.exceptions.CardNotFoundException;
+import com.logicea.demo.exceptions.ForbiddenException;
 import com.logicea.demo.models.Card;
 import com.logicea.demo.models.User;
 import com.logicea.demo.util.CardStatus;
@@ -7,7 +10,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface CardService {
 
@@ -17,9 +19,11 @@ public interface CardService {
 
     List<Card> findAllCards();
 
-    public List<Card> findCardsWithFilters(Long userId, String colour, String name, CardStatus cardStatus);
+    Card createCard(Card card, User user);
 
-    Card createCard(String name, Optional<String> description, Optional<String> colour, User user);
+    Card updateCard(Long cardId, User user,Card card) throws ForbiddenException, CardNotFoundException;
 
-    Boolean cardExists(Long cardId);
+    Card findCardForUser(Long cardId, User user) throws CardDoesNotBelongToUserException, CardNotFoundException;
+
+     void deleteCard(Long cardId, Long ownerId) throws CardNotFoundException, ForbiddenException;
 }

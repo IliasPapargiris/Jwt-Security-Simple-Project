@@ -1,5 +1,6 @@
 package com.logicea.demo.dto;
 
+import com.logicea.demo.validation.ValidCardStatus;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -23,11 +24,17 @@ public class CardDto {
 
 
     @Size(max = 7)
-    @Pattern(regexp = COLOUR_REGEX)
+    @Pattern(regexp = COLOUR_REGEX,message = "Invalid colour code,colour must follow hex colour code format")
     private String colour;
 
 
     @Size(max = 100)
     String description;
+
+
+
+    @NotBlank
+    @ValidCardStatus
+    private String status;
 
 }

@@ -1,9 +1,9 @@
 package com.logicea.demo.security.authentication;
 
 import com.logicea.demo.dao.UserDao;
+import com.logicea.demo.exceptions.UserAlreadyRegisteredAuthenticationException;
 import com.logicea.demo.models.User;
 import com.logicea.demo.security.config.JwtService;
-import com.logicea.demo.util.Roles;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -23,10 +23,12 @@ public class AuthenticationService {
                 .username(request.getName())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(Roles.MEMBER)
+                .role(request.getRole())
                 .build();
         if (!repository.existsByEmail(user.getEmail())) {
             repository.save(user);
+        }else {
+            throw new UserAlreadyRegisteredAuthenticationException();
         }
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()

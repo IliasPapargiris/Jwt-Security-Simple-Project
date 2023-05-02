@@ -1,15 +1,11 @@
 package com.logicea.demo.dao;
 
 import com.logicea.demo.models.Card;
+import com.logicea.demo.models.User;
 import com.logicea.demo.util.CardStatus;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
+import jakarta.persistence.criteria.*;
 import lombok.Data;
 import org.springframework.data.jpa.domain.Specification;
-
-import java.time.LocalDate;
 
 @Data
 public class CardSpecification implements Specification<Card> {
@@ -34,12 +30,16 @@ public class CardSpecification implements Specification<Card> {
         return (cardRoot, query, criteriaBuilder) -> criteriaBuilder.equal(cardRoot.get("colour"), color);
     }
 
-    public static Specification<Card> hasName(String name) {
-        return (cardRoot, query, criteriaBuilder) -> criteriaBuilder.equal(cardRoot.get("name"), name);
+    public static Specification<Card> isOwnedBy(Long userId) {
+        return (root, query, criteriaBuilder) -> {
+            Join<Card, User> userJoin = root.join("user", JoinType.LEFT);
+            return criteriaBuilder.equal(userJoin.get("id"), userId);
+        };
     }
 
-    public static Specification<Card> hasDate(LocalDate date) {
-        return (cardRoot, query, criteriaBuilder) -> criteriaBuilder.equal(cardRoot.get("date"), date);
+
+    public static Specification<Card> hasName(String name) {
+        return (cardRoot, query, criteriaBuilder) -> criteriaBuilder.equal(cardRoot.get("name"), name);
     }
 
     public static Specification<Card> hasStatus(CardStatus status) {

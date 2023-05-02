@@ -38,7 +38,7 @@ public class Card {
     }
 
     @JsonIdentityReference(alwaysAsId = true)
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "USER_ID")
     private User user;
 
@@ -46,5 +46,9 @@ public class Card {
     @Enumerated(EnumType.STRING)
     @Column(name = "status", columnDefinition = "ENUM('TO DO', 'IN PROGRESS', 'DONE')")
     private CardStatus status;
+
+    public boolean isOwnedBy(Long userId) {
+        return this.user.getId() == userId;
+    }
 
 }

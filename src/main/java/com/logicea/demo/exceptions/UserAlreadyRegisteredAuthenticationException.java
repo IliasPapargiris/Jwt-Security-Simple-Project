@@ -1,4 +1,4 @@
-package com.logicea.demo.security.authentication;
+package com.logicea.demo.exceptions;
 
 import javax.naming.AuthenticationException;
 

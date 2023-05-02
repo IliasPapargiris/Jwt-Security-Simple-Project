@@ -1,5 +1,6 @@
 package com.logicea.demo.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.logicea.demo.util.Roles;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -30,6 +31,7 @@ public class User  implements UserDetails {
     @Column(unique = true, nullable = false)
     private String email;
 
+    @JsonIgnore
     @Column(nullable = false)
     private String password;
     @Enumerated(EnumType.STRING)

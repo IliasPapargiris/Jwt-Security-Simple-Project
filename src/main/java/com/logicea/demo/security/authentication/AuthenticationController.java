@@ -1,5 +1,6 @@
 package com.logicea.demo.security.authentication;
 
+import com.logicea.demo.exceptions.UserAlreadyRegisteredAuthenticationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
